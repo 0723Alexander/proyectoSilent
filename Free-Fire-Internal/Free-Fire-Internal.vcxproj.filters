@@ -96,9 +96,6 @@
     <ClCompile Include="FrameWork\Utilities\Android Debug Bridge (adb)\adb_utils.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="Cheat\Features\aim\AimbotNova.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FrameWork\FrameWork.hpp">
@@ -486,9 +483,6 @@
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="FrameWork\Utilities\Android Debug Bridge (adb)\adb_utils.hpp">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="Cheat\Features\aim\AimbotNova.hpp">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>

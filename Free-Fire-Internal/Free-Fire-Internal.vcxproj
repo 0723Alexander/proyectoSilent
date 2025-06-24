@@ -159,7 +159,6 @@
     <ClCompile Include="Cheat\Cheat.cpp" />
     <ClCompile Include="Cheat\Data\Data.cpp" />
     <ClCompile Include="Cheat\Features\aim\Aimbot.cpp" />
-    <ClCompile Include="Cheat\Features\aim\AimbotNova.cpp" />
     <ClCompile Include="Cheat\Features\Visuals\PlayerEsp.cpp" />
     <ClCompile Include="Cheat\FreeFireSDK\FreeFireSDK.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -189,7 +188,6 @@
     <ClInclude Include="Cheat\Cheat.hpp" />
     <ClInclude Include="Cheat\Data\Data.hpp" />
     <ClInclude Include="Cheat\Features\aim\AimBot.hpp" />
-    <ClInclude Include="Cheat\Features\aim\AimbotNova.hpp" />
     <ClInclude Include="Cheat\Features\aim\Silent.h" />
     <ClInclude Include="Cheat\Features\Visuals\PlayerEsp.hpp" />
     <ClInclude Include="Cheat\FreeFireSDK\Context.hpp" />

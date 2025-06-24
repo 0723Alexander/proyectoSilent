@@ -59,12 +59,12 @@ namespace Cheat
 
                     // Verificar si las coordenadas de pantalla son válidas y están dentro de los límites
                     // Se usan .X y .Y para acceder a los miembros del Vector2
-                    if (headScreenPos.X < 1.0f || headScreenPos.Y < 1.0f || bottomScreenPos.X < 1.0f || bottomScreenPos.Y < 1.0f ||
-                        headScreenPos.X > screenWidth || headScreenPos.Y > screenHeight || bottomScreenPos.X > screenWidth || bottomScreenPos.Y > screenHeight)
-                    {
-                        // La entidad no está visible en la pantalla principal (pero podría estarlo en la brújula)
-                        continue; // No dibujamos el ESP normal si está fuera de pantalla
-                    }
+                    //if (headScreenPos.X < 1.0f || headScreenPos.Y < 1.0f || bottomScreenPos.X < 1.0f || bottomScreenPos.Y < 1.0f ||
+                    //    headScreenPos.X > screenWidth || headScreenPos.Y > screenHeight || bottomScreenPos.X > screenWidth || bottomScreenPos.Y > screenHeight)
+                    //{
+                    //    // La entidad no está visible en la pantalla principal (pero podría estarlo en la brújula)
+                    //    continue; // No dibujamos el ESP normal si está fuera de pantalla
+                    //}
 
                     // Calcular dimensiones de la caja del ESP
                     float cornerHeight = std::abs(headScreenPos.Y - bottomScreenPos.Y);
@@ -98,22 +98,22 @@ namespace Cheat
                     }
 
                     // Dibujar nombre (ESPName) y distancia
-                    if (g_Options.Visuals.ESP.Players.Name)
-                    {
-                        char nameBuffer[64];
-                        // CORREGIDO: Se mantiene la lógica para incluir entity.Name
-                        // Si los nombres no aparecen, el problema es que entity.Name no está siendo poblado por el SDK.
-                        sprintf_s(nameBuffer, "%s [ %.0fM ]", entity.Name.c_str(), std::round(dist)); // entity.Name es std::string
+                    //if (g_Options.Visuals.ESP.Players.Name)
+                    //{
+                    //    char nameBuffer[64];
+                    //    // CORREGIDO: Se mantiene la lógica para incluir entity.Name
+                    //    // Si los nombres no aparecen, el problema es que entity.Name no está siendo poblado por el SDK.
+                    //    sprintf_s(nameBuffer, "%s [ %.0fM ]", entity.Name.c_str(), std::round(dist)); // entity.Name es std::string
 
-                        drawList->AddText(
-                            ImVec2(headScreenPos.X - (cornerWidth / 2.0f), headScreenPos.Y - 20.0f),
-                            ColorToImU32(g_Options.Visuals.ESP.Players.NameColor[0],
-                                g_Options.Visuals.ESP.Players.NameColor[1],
-                                g_Options.Visuals.ESP.Players.NameColor[2],
-                                g_Options.Visuals.ESP.Players.NameColor[3]),
-                            nameBuffer
-                        );
-                    }
+                    //    drawList->AddText(
+                    //        ImVec2(headScreenPos.X - (cornerWidth / 2.0f), headScreenPos.Y - 20.0f),
+                    //        ColorToImU32(g_Options.Visuals.ESP.Players.NameColor[0],
+                    //            g_Options.Visuals.ESP.Players.NameColor[1],
+                    //            g_Options.Visuals.ESP.Players.NameColor[2],
+                    //            g_Options.Visuals.ESP.Players.NameColor[3]),
+                    //        nameBuffer
+                    //    );
+                    //}
 
                     // Dibujar barra de vida (ESPHealth)
                     if (g_Options.Visuals.ESP.Players.HealthBar)

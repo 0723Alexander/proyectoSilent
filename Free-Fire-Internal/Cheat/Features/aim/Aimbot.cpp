@@ -49,10 +49,22 @@ namespace FrameWork {
             }
 
             if (target != nullptr) {
-                auto playerLook = Quaternion::GetRotationToLocation(target->Head, 0.0f, Context::LocalMainCamera);
+                auto playerLook = Quaternion::GetRotationToLocation(target->Head, 0.1f, Context::LocalMainCamera);
                 FrameWork::Memory::WriteToMemory(Context::LocalPlayerAddress + Offsets::AimRotation, playerLook);
 
             }
+
+            /*
+            if (target != nullptr) {
+                Vector3 aim_pos = target->Head;
+
+                aim_pos.Y += 0.15f;
+
+                auto playerLook = Quaternion::GetRotationToLocation(aim_pos, 0.0f, Context::LocalMainCamera);
+                FrameWork::Memory::WriteToMemory(Context::LocalPlayerAddress + Offsets::AimRotation, playerLook);
+            }*/
+
+
 
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
