@@ -78,6 +78,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(ProjectDir)\FrameWork\Dependencies\ImGui;$(ProjectDir)\FrameWork\Dependencies\DirectX\Include;$(ProjectDir)\FrameWork\Dependencies\MinHook;$(ProjectDir)\framework\dependencies\foundation\include;$(ProjectDir)\;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)\FrameWork\Dependencies\DirectX\Lib\;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>C:\Users\romul\Documents\Nueva carpeta\ImGui Silent\Free-Fire-Internal\FrameWork\Dependencies\MinHook\src;C:\Users\romul\Documents\Nueva carpeta\ImGui Silent\Free-Fire-Internal\FrameWork\Dependencies\MinHook\include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">
     <VcpkgEnabled>false</VcpkgEnabled>
@@ -158,6 +159,7 @@
     <ClCompile Include="Cheat\Cheat.cpp" />
     <ClCompile Include="Cheat\Data\Data.cpp" />
     <ClCompile Include="Cheat\Features\aim\Aimbot.cpp" />
+    <ClCompile Include="Cheat\Features\aim\AimbotNova.cpp" />
     <ClCompile Include="Cheat\Features\Visuals\PlayerEsp.cpp" />
     <ClCompile Include="Cheat\FreeFireSDK\FreeFireSDK.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -187,6 +189,7 @@
     <ClInclude Include="Cheat\Cheat.hpp" />
     <ClInclude Include="Cheat\Data\Data.hpp" />
     <ClInclude Include="Cheat\Features\aim\AimBot.hpp" />
+    <ClInclude Include="Cheat\Features\aim\AimbotNova.hpp" />
     <ClInclude Include="Cheat\Features\aim\Silent.h" />
     <ClInclude Include="Cheat\Features\Visuals\PlayerEsp.hpp" />
     <ClInclude Include="Cheat\FreeFireSDK\Context.hpp" />

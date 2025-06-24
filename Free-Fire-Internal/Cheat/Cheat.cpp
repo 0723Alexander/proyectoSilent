@@ -101,13 +101,24 @@ namespace Cheat {
 				ImGui_ImplWin32_NewFrame();
 				ImGui::NewFrame();
 				{
-					if (g_Options.Misc.Screen.ShowAimbotFov) {
+					if (g_Options.Misc.Screen.ShowAimbotFov || g_Options.LegitBot.AimBot.Enabled) {
 						ImColor Color = ImColor(g_Options.Misc.Screen.AimbotFovColor[0], g_Options.Misc.Screen.AimbotFovColor[1], g_Options.Misc.Screen.AimbotFovColor[2], g_Options.Misc.Screen.AimbotFovColor[3]);
 						ImGui::GetBackgroundDrawList()->AddCircle(ImVec2(ImGui::GetIO().DisplaySize.x / 2, ImGui::GetIO().DisplaySize.y / 2), g_Options.LegitBot.AimBot.FOV, Color, 360);
 					}
 
 					if (g_Options.Visuals.ESP.Players.Enabled) {
-						ESP::Players();
+						// Llama a la función principal de dibujo de ESP de jugadores (cajas, barras de vida, nombres)
+						Cheat::Features::Visuals::PlayerEsp::DrawPlayerESP();
+
+						// Llama a la función de dibujo de la brújula ESP (que ya tiene su propia comprobación de habilitación dentro)
+						//Cheat::Features::Visuals::PlayerEsp::DrawCompassESP();
+					}
+
+					if (g_Options.LegitBot.AimBot.Enabled) {
+						g_Options.Misc.Screen.ShowAimbotFov = true;
+					}
+					else {
+						g_Options.Misc.Screen.ShowAimbotFov = false;
 					}
 
 					if (g_Options.LegitBot.AimBot.Silent) {

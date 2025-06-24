@@ -2,6 +2,7 @@
 #include <thread>
 #include <Cheat/Cheat.hpp>
 #include <FrameWork/FrameWork.hpp>
+#include <MinHook.h> // Añade el include de MinHook aquí
 
 HMODULE g_hModule;
 bool bShouldUnload = false;
@@ -23,16 +24,24 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
     return 0;
 }
 
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
-    switch (ul_reason_for_call) {
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
+{
+    switch (ul_reason_for_call)
+    {
     case DLL_PROCESS_ATTACH:
-        g_hModule = hModule;
         DisableThreadLibraryCalls(hModule);
-        CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)wWinMain, hModule, 0, NULL);
+        // Aquí es donde probablemente inicias tu cheat en un hilo
+        CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)wWinMain, hModule, 0, nullptr);
         break;
+
     case DLL_PROCESS_DETACH:
-            FrameWork::Misc::ShutDownConsole();
-            bShouldUnload = true;
+        // --- AÑADE ESTO ---
+        // Esto es crucial. Deshabilita todos los hooks y libera los recursos de MinHook.
+        MH_Uninitialize();
+        break;
+        
+    case DLL_THREAD_ATTACH:
+    case DLL_THREAD_DETACH:
         break;
     }
     return TRUE;

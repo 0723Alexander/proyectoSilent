@@ -107,6 +107,8 @@ namespace FrameWork {
 		ImGui::SetCursorPos(ImVec2(20, 60));
 		ImGui::CustomChild(XorStr("Aimbot"), ImVec2(ImGui::GetWindowSize().x / 2 - 30, 350));
 		{
+			Custom::Checkbox3("Aimbot", &g_Options.LegitBot.AimBot.Enabled);
+
 			Custom::Checkbox3(XorStr("Enabled"), &g_Options.LegitBot.AimBot.Silent, 235.0f);
 			Custom::Checkbox3(XorStr("Show Fov"),&g_Options.Misc.Screen.ShowAimbotFov, 235.0f);
 			Custom::Checkbox3(XorStr("No Recoil"), &g_Options.Misc.Exploits.LocalPlayer.norecoil, 235.0f);
@@ -117,12 +119,12 @@ namespace FrameWork {
 		ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x / 2 + 10, 60));
 		ImGui::CustomChild(XorStr("Settings Aim"), ImVec2(ImGui::GetWindowSize().x / 2 - 30, 350));
 		{
-			if (g_Options.LegitBot.AimBot.Silent) {
+			if (g_Options.LegitBot.AimBot.Silent || g_Options.LegitBot.AimBot.Enabled) {
 				Custom::Checkbox3(XorStr("Agresive Mode"), &g_Options.LegitBot.AimBot.aggressiveMode, 235.0f);
 				ImGui::KeyBind(XorStr("Key Silent Aim"), &g_Options.LegitBot.AimBot.KeyBind);
 			}
 
-			if (g_Options.Misc.Screen.ShowAimbotFov)
+			if (g_Options.Misc.Screen.ShowAimbotFov || g_Options.LegitBot.AimBot.Enabled)
 			{
 				Custom::SliderInt(XorStr("Field of view"), &g_Options.LegitBot.AimBot.FOV, 0, 600, XorStr("%d"), 0, XorStr("Adjust aimbot radius"));
 				ImGui::ColorEdit4(XorStr("Fov Color"), g_Options.Misc.Screen.AimbotFovColor, ImGuiColorEditFlags_NoDragDrop | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoInputs);
@@ -150,22 +152,36 @@ namespace FrameWork {
 		ImGui::CustomChild(XorStr("General"), ImVec2(ImGui::GetWindowSize().x / 2 - 30, 340));
 		{
 
-			Custom::Checkbox3(XorStr("Enabled"), &g_Options.Visuals.ESP.Players.Enabled, 235.0f);  
+			// Tu código existente en la parte del menú de ESP de jugadores:
+			Custom::Checkbox3(XorStr("Enabled"), &g_Options.Visuals.ESP.Players.Enabled, 235.0f);
 			Custom::Checkbox3(XorStr("Esp Box"), &g_Options.Visuals.ESP.Players.Box, 235.0f);
-			if (g_Options.Visuals.ESP.Players.Box)
+			/*if (g_Options.Visuals.ESP.Players.Box)
 			{
 				ImGui::Combo(XorStr("Box Style"), &g_Options.Visuals.ESP.Players.players_box, XorStr("None\0Full\0Cornered\0"));
-			}
+			}*/
 			Custom::Checkbox3(XorStr("Esp Health"), &g_Options.Visuals.ESP.Players.HealthBar, 235.0f);
-			if (g_Options.Visuals.ESP.Players.HealthBar)
+			/*if (g_Options.Visuals.ESP.Players.HealthBar)
 			{
 				ImGui::Combo(XorStr("Healthbar"), &g_Options.Visuals.ESP.Players.players_healthbar, XorStr("None\0Right\0Left\0top\0Bottom\0"));
-			}
+			}*/
 
-			Custom::Checkbox3(XorStr("Esp Skeleton"), &g_Options.Visuals.ESP.Players.Skeleton, 235.0f);;
+			//Custom::Checkbox3(XorStr("Esp Skeleton"), &g_Options.Visuals.ESP.Players.Skeleton, 235.0f);
 			Custom::Checkbox3(XorStr("Esp Username"), &g_Options.Visuals.ESP.Players.Name, 235.0f);
 			Custom::Checkbox3(XorStr("Esp Distance"), &g_Options.Visuals.ESP.Players.Distance, 235.0f);
 			Custom::Checkbox3(XorStr("Esp Line"), &g_Options.Visuals.ESP.Players.SnapLines, 235.0f);
+
+			// ¡NUEVO! Opción para la Brújula ESP
+			Custom::Checkbox3(XorStr("Esp Compass"), &g_Options.Visuals.ESP.Players.Compass.Enabled, 235.0f);
+
+			// Opcional: Si quieres añadir controles para el radio, tamaño de punto y colores de la brújula:
+			if (g_Options.Visuals.ESP.Players.Compass.Enabled)
+			{
+				ImGui::SliderFloat(XorStr("Compass Radius"), &g_Options.Visuals.ESP.Players.Compass.Radius, 50.0f, 200.0f, "%.1f");
+				ImGui::SliderFloat(XorStr("Compass Dot Size"), &g_Options.Visuals.ESP.Players.Compass.DotSize, 1.0f, 10.0f, "%.1f");
+				ImGui::ColorEdit4(XorStr("Compass Front Color"), g_Options.Visuals.ESP.Players.Compass.FrontColor);
+				ImGui::ColorEdit4(XorStr("Compass Back Color"), g_Options.Visuals.ESP.Players.Compass.BackColor);
+				ImGui::ColorEdit4(XorStr("Compass Circle Color"), g_Options.Visuals.ESP.Players.Compass.CircleColor);
+			}
 		}
 		ImGui::EndCustomChild();
 

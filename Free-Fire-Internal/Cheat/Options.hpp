@@ -1,3 +1,4 @@
+// Free-Fire-Internal/Cheat/Options.hpp
 #pragma once
 #include <Windows.h> 
 
@@ -62,6 +63,21 @@ namespace Cheat {
 					bool SnapLines;
 					int EspLines = 0;
 					float SnapLinesColor[4] = { 1.f, 1.f, 1.f, 1.f };
+
+					bool ESPAimLine;
+					float ESPAimLineColor[4] = { 1.f, 0.f, 0.f, 1.f };
+
+					// NUEVAS OPCIONES PARA BRÚJULA ESP
+					struct Compass
+					{
+						bool Enabled = false;
+						float Radius = 100.0f; // Radio del círculo de la brújula
+						float DotSize = 5.0f; // Tamaño del indicador (punto o triángulo)
+						float FrontColor[4] = { 0.0f, 1.0f, 0.0f, 1.0f }; // Verde para enemigos al frente
+						float BackColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };  // Rojo para enemigos atrás
+						float CircleColor[4] = { 0.5f, 0.5f, 0.5f, 0.5f }; // Color del círculo de la brújula
+					} Compass;
+
 				} Players;
 			} ESP;
 		} Visuals;

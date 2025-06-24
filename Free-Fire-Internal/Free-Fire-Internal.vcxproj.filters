@@ -81,9 +81,6 @@
     <ClCompile Include="FrameWork\Dependencies\MinHook\src\trampoline.c">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="FrameWork\Utilities\Android Debug Bridge (adb)\adb_utils.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
     <ClCompile Include="FrameWork\Dependencies\ImGui\Custom\Custom.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
@@ -94,6 +91,12 @@
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
     <ClCompile Include="Cheat\Features\aim\Aimbot.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Utilities\Android Debug Bridge (adb)\adb_utils.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="Cheat\Features\aim\AimbotNova.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
   </ItemGroup>
@@ -434,9 +437,6 @@
     <ClInclude Include="FrameWork\Dependencies\MinHook\src\trampoline.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="FrameWork\Utilities\Android Debug Bridge (adb)\adb_utils.hpp">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
     <ClInclude Include="FrameWork\Dependencies\ImGui\Custom\Custom.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
@@ -483,6 +483,12 @@
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="Cheat\Features\aim\Silent.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Utilities\Android Debug Bridge (adb)\adb_utils.hpp">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Cheat\Features\aim\AimbotNova.hpp">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>

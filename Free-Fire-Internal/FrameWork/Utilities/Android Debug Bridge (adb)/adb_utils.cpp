@@ -96,31 +96,51 @@ namespace FrameWork {
         }
 
         bool InitializeADB() {
-            FrameWork::Misc::Log(XorStr("[FreeFire-Cheat] Connecting ADB..."));
+            // Búfer para formatear los mensajes
+            char msgBuffer[1024];
 
+            MessageBoxA(NULL, "Iniciando el proceso de conexion con ADB...", "Debug ADB: Paso 1", MB_OK | MB_ICONINFORMATION);
+
+            // --- Búsqueda de la ruta de ADB ---
             std::string adbPath = GetAdbPath();
             if (adbPath.empty()) {
-                FrameWork::Misc::Log(XorStr("Error: ADB path not found."));
+                MessageBoxA(NULL, "ERROR: La ruta del ejecutable 'adb.exe' no fue encontrada.", "Debug ADB: ERROR en Paso 2", MB_OK | MB_ICONERROR);
                 return false;
             }
 
+            sprintf_s(msgBuffer, sizeof(msgBuffer), "ACIERTO: Se encontro la ruta de ADB.\n\nRuta: %s", adbPath.c_str());
+            MessageBoxA(NULL, msgBuffer, "Debug ADB: Paso 2", MB_OK | MB_ICONINFORMATION);
+
+            // --- Inicialización y obtención de la dirección de la librería ---
             FrameWork::Adb adb(adbPath);
-            FrameWork::Misc::Log(XorStr("[FreeFire-Cheat] ADB Path Detected: ") + adbPath);
+            MessageBoxA(NULL, "Iniciando ADB y buscando la libreria 'libil2cpp.so' en 'com.dts.freefireth'...", "Debug ADB: Paso 3", MB_OK | MB_ICONINFORMATION);
+
             Context::LibraryAddress = adb.Start(XorStr("com.dts.freefireth"), XorStr("libil2cpp.so"));
 
-            adb.Kill();
+            adb.Kill(); // Se cierra el proceso de ADB
 
-            FrameWork::Misc::Log(XorStr("[FreeFire-Cheat] Library Address: ") + std::to_string(Context::LibraryAddress));
+            // --- Verificación de la dirección de la librería ---
             if (Context::LibraryAddress == 0) {
-                throw std::runtime_error(XorStr("Error: Failed to find library address."));
+                MessageBoxA(NULL, "ERROR: No se pudo obtener la direccion de la libreria 'libil2cpp.so'.\n\nPosibles causas:\n1. El juego no esta abierto o no es la version correcta.\n2. El emulador no tiene la depuracion USB activada.\n3. El paquete no es 'com.dts.freefireth'.", "Debug ADB: ERROR en Paso 4", MB_OK | MB_ICONERROR);
+                // El throw original detendría la ejecución, lo cambiamos por un return para una salida más limpia en depuración.
+                return false;
             }
 
-            FrameWork::Misc::Log(XorStr("[FreeFire-Cheat] Reading Library"));
+            sprintf_s(msgBuffer, sizeof(msgBuffer), "ACIERTO: Se obtuvo la direccion de la libreria.\n\nDireccion de libil2cpp.so: 0x%p", (void*)Context::LibraryAddress);
+            MessageBoxA(NULL, msgBuffer, "Debug ADB: Paso 4", MB_OK | MB_ICONINFORMATION);
+
+            // --- Lectura de verificación de la librería ---
+            MessageBoxA(NULL, "Intentando leer el primer byte de la libreria para verificar...", "Debug ADB: Paso 5", MB_OK | MB_ICONINFORMATION);
+
             byte elf = FrameWork::Memory::Read<byte>(Context::LibraryAddress);
+
             std::stringstream ss;
-            ss << XorStr("ELF (Decimal): ") << static_cast<unsigned int>(elf)
-                << XorStr(" | ELF (Hexadecimal): 0x") << std::hex << static_cast<unsigned int>(elf);
-            FrameWork::Misc::Log(ss.str());
+            ss << "ACIERTO FINAL: Lectura de memoria exitosa.\n\n";
+            ss << "Byte leido (ELF): " << static_cast<unsigned int>(elf) << "\n";
+            ss << "Byte (Hex): 0x" << std::hex << static_cast<unsigned int>(elf) << "\n\n";
+            ss << "La inicializacion por ADB fue completamente exitosa.";
+
+            MessageBoxA(NULL, ss.str().c_str(), "Debug ADB: Paso 5", MB_OK | MB_ICONINFORMATION);
 
             return true;
         }

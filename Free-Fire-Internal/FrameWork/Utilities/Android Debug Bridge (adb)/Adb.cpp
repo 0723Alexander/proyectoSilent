@@ -48,7 +48,7 @@ namespace FrameWork {
                 if (parts.size() > 1) {
                     auto pid = parts[4];
 
-                    std::string mapInput = XorStr("cat proc/") + pid + XorStr("/maps | grep ") + moduleName;
+                    std::string mapInput = XorStr("cat /proc/$(pidof com.dts.freefireth)/maps | grep ") + moduleName;
 
                     foundPid = true;
                     pos << mapInput << std::endl;
