@@ -109,27 +109,21 @@ namespace Cheat {
 					if (g_Options.Visuals.ESP.Players.Enabled) {
 						// Llama a la función principal de dibujo de ESP de jugadores (cajas, barras de vida, nombres)
 						Cheat::Features::Visuals::PlayerEsp::DrawPlayerESP();
-
 						// Llama a la función de dibujo de la brújula ESP (que ya tiene su propia comprobación de habilitación dentro)
 						//Cheat::Features::Visuals::PlayerEsp::DrawCompassESP();
 					}
 
 					if (g_Options.LegitBot.AimBot.Enabled) {
-						g_Options.Misc.Screen.ShowAimbotFov = true;
-					}
-					else {
-						g_Options.Misc.Screen.ShowAimbotFov = false;
+						Cheat::Features::Visuals::PlayerEsp::DrawAimbotTargetLine();
 					}
 
 					if (g_Options.LegitBot.AimBot.Silent) {
 						g_Options.Misc.Screen.ShowAimbotFov = true;
-
+						Cheat::Features::Visuals::PlayerEsp::DrawTargetLine();
 						Silent_CppX::StartSilentAim();
-
 					}
 					else {
 						g_Options.Misc.Screen.ShowAimbotFov = false;
-
 						Silent_CppX::StopSilentAim();
 					}
 

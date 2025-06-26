@@ -26,6 +26,9 @@ namespace Cheat
                 //static void DrawCompassESP(); // Función para la brújula ESP
 
                 // Funciones de dibujo auxiliares
+                static void DrawTargetLine();
+                static void DrawAimbotTargetLine();
+
                 static void DrawCorneredBox(float x, float y, float w, float h, ImU32 color, float thickness);
                 static void DrawHealthBar(short health, short maxHealth, float x, float y, float height);
                 static ImU32 ColorToImU32(float r, float g, float b, float a); // Convertir RGBA a ImU32

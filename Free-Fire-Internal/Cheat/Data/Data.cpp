@@ -108,6 +108,11 @@ namespace FrameWork {
 
             entities += 0x10;
 
+            if (entities==0)
+            {
+                ClearGameState();
+            }
+
             uint32_t entitiesCount = Memory::Read<uint32_t>(entityDictionary + 0x18);
             if (entitiesCount != previousCount) {
                 std::cout << "Entities Count: " << entitiesCount << std::endl;
@@ -149,13 +154,27 @@ namespace FrameWork {
             return false;
         }
 
-        bool isVisible = false;
+        /*bool isVisible = false;
         if (!Memory::Read1(avatar + Offsets::Avatar_IsVisible, isVisible) || !isVisible) {
+            Context::Entities.erase(entityAddr);
+            return false;
+        }*/
+
+        bool isGameVisible = false;
+        Memory::Read1(avatar + Offsets::Avatar_IsVisible, isGameVisible);
+
+        // 2. Comprueba si debemos saltar la entidad
+        //    Saltaremos la entidad SOLO SI:
+        //    a) NO es visible en el juego, Y
+        //    b) Nuestra opción para ver a los invisibles está DESACTIVADA.
+        if (!isGameVisible && !g_Options.Visuals.ESP.Players.VisibleOnly) {
             Context::Entities.erase(entityAddr);
             return false;
         }
 
-        entity.IsVisible = isVisible;
+        // 3. Si llegamos aquí, es porque la entidad es visible o porque forzamos que se vea.
+        //    Así que la marcamos como visible para el resto del código.
+        entity.IsVisible = true;
 
         uint32_t avatarData;
         if (!FrameWork::Memory::Read1(avatar + Offsets::Avatar_Data, avatarData) || avatarData == 0) {
@@ -311,9 +330,6 @@ namespace FrameWork {
             entity.Name = "Bot";
         }
     }
-
-
-
 
     void Data::ClearGameState() {
         if (!Context::Entities.empty()) {

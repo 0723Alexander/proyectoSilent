@@ -67,7 +67,6 @@ namespace Silent_CppX {
 
         aimbotThread = std::thread([] {
             while (!cancelToken.load()) {
-                // Evita usar keybind: apunta siempre
                 if (Context::WindowWidth <= 0 || Context::WindowHeight <= 0 || !Context::HasMatrix) {
                     std::this_thread::sleep_for(std::chrono::milliseconds(1));
                     continue;
@@ -78,13 +77,47 @@ namespace Silent_CppX {
 
                 Vector3 shootOrigin = FrameWork::Memory::Read<Vector3>(boneBase + 0x38);
 
-                // 🔍 Buscar todos los objetivos en el FOV
-                std::vector<Entity*> targets = FindTargetsInFov();
-                for (Entity* target : targets) {
-                    SilentAimAtTarget(target, shootOrigin, boneBase);
+                std::vector<Entity*> possible_targets = FindTargetsInFov();
+
+                // =========================================================================
+                // ===== INICIO DE LA SOLUCIÓN AL PARPADEO =================================
+                // =========================================================================
+
+                if (!possible_targets.empty()) {
+                    Entity* best_target = nullptr;
+                    float closest_distance_to_crosshair = FLT_MAX;
+                    Vector2 screen_center(Context::WindowWidth / 2.0f, Context::WindowHeight / 2.0f);
+
+                    for (Entity* current_target : possible_targets) {
+                        if (!current_target) continue;
+                        Vector2 head_on_screen = W2S::WorldToScreen(Context::ViewMatrix, current_target->Head, Context::WindowWidth, Context::WindowHeight);
+                        float distance_to_crosshair = Vector2::Distance(screen_center, head_on_screen);
+                        if (distance_to_crosshair < closest_distance_to_crosshair) {
+                            closest_distance_to_crosshair = distance_to_crosshair;
+                            best_target = current_target;
+                        }
+                    }
+
+                    if (best_target != nullptr) {
+                        // Si encontramos un objetivo, lo publicamos y apuntamos.
+                        // La variable se mantendrá estable mientras se apunte al mismo objetivo.
+                        Context::SilentAimTarget = best_target;
+                        SilentAimAtTarget(best_target, shootOrigin, boneBase);
+                    }
+                    else {
+                        // Si después de buscar no encontramos a nadie, AHORA SÍ limpiamos el objetivo.
+                        Context::SilentAimTarget = nullptr;
+                    }
+                }
+                else {
+                    // Si la lista inicial de objetivos está vacía, también limpiamos el objetivo.
+                    Context::SilentAimTarget = nullptr;
                 }
 
-                // 🔁 Ultra agresivo si está activado
+                // =========================================================================
+                // ===== FIN DE LA SOLUCIÓN =================================================
+                // =========================================================================
+
                 if (g_Options.LegitBot.AimBot.aggressiveMode) {
                     std::this_thread::yield();
                 }

@@ -47,9 +47,8 @@ namespace Cheat
                         continue;
                     }
 
-                    // Calcular distancia entre el jugador local y la entidad
                     float dist = Vector3::Distance(localMainCamera, entity.Head);
-                    if (dist > g_Options.Visuals.ESP.Players.RenderDistance) { // Usar opciones de RenderDistance
+                    if (dist > g_Options.Visuals.ESP.Players.RenderDistance) {
                         continue;
                     }
 
@@ -58,13 +57,11 @@ namespace Cheat
                     Vector2 bottomScreenPos = W2S::WorldToScreen(cameraMatrix, entity.Root, Context::WindowWidth, Context::WindowHeight);
 
                     // Verificar si las coordenadas de pantalla son válidas y están dentro de los límites
-                    // Se usan .X y .Y para acceder a los miembros del Vector2
-                    //if (headScreenPos.X < 1.0f || headScreenPos.Y < 1.0f || bottomScreenPos.X < 1.0f || bottomScreenPos.Y < 1.0f ||
-                    //    headScreenPos.X > screenWidth || headScreenPos.Y > screenHeight || bottomScreenPos.X > screenWidth || bottomScreenPos.Y > screenHeight)
-                    //{
-                    //    // La entidad no está visible en la pantalla principal (pero podría estarlo en la brújula)
-                    //    continue; // No dibujamos el ESP normal si está fuera de pantalla
-                    //}
+                    /*if (headScreenPos.X < 1.0f || headScreenPos.Y < 1.0f || bottomScreenPos.X < 1.0f || bottomScreenPos.Y < 1.0f ||
+                        headScreenPos.X > screenWidth || headScreenPos.Y > screenHeight || bottomScreenPos.X > screenWidth || bottomScreenPos.Y > screenHeight)
+                    {
+                        continue;
+                    }*/
 
                     // Calcular dimensiones de la caja del ESP
                     float cornerHeight = std::abs(headScreenPos.Y - bottomScreenPos.Y);
@@ -146,66 +143,117 @@ namespace Cheat
             //    float dotSize = g_Options.Visuals.ESP.Players.Compass.DotSize;
 
             //    ImDrawList* drawList = ImGui::GetForegroundDrawList();
-
             //    // Dibujar el círculo de la brújula
             //    drawList->AddCircle(compassCenter, compassRadius, ColorToImU32(g_Options.Visuals.ESP.Players.Compass.CircleColor[0], g_Options.Visuals.ESP.Players.Compass.CircleColor[1], g_Options.Visuals.ESP.Players.Compass.CircleColor[2], g_Options.Visuals.ESP.Players.Compass.CircleColor[3]), 0, 1.0f);
-
             //    // Obtener la posición de la cámara local y la matriz de vista desde Context
             //    Vector3 localMainCamera = Context::LocalMainCamera;
             //    Matrix4x4 viewMatrix = Context::ViewMatrix;
-
             //    // Extraer el vector 'hacia adelante' de la cámara desde la matriz de vista
             //    // Asumimos que la 3ª fila de la matriz de vista es el vector -Z de la cámara en el espacio mundial.
             //    Vector3 cameraForward = Vector3(-viewMatrix._31, -viewMatrix._32, -viewMatrix._33);
             //    cameraForward = Vector3::Normalize(cameraForward); // Normalizar el vector
-
             //    // Reducir el vector 'hacia adelante' a un vector 2D horizontal (ignorando el componente Y)
             //    Vector2 playerForward2D = Vector2::Normalized(Vector2(cameraForward.X, cameraForward.Z));
-
             //    // Iterar sobre las entidades para dibujar sus indicadores en la brújula
             //    for (const auto& pair : Context::Entities)
             //    {
             //        Entity entity = pair.second;
-
             //        // Filtrar entidades inválidas o muertas
             //        if (entity.IsDead || !entity.IsKnown) {
             //            continue;
             //        }
-
             //        // Opcional: Si el enemigo está en pantalla, no lo mostramos en la brújula
             //        Vector2 entityScreenPos = W2S::WorldToScreen(viewMatrix, entity.Head, Context::WindowWidth, Context::WindowHeight);
             //        if (entityScreenPos.X > 0 && entityScreenPos.X < screenWidth && entityScreenPos.Y > 0 && entityScreenPos.Y < screenHeight) {
             //            continue; // El enemigo ya está en pantalla, la brújula es para los que están fuera.
             //        }
-
             //        // Calcular el vector del jugador a la cabeza del enemigo (en el plano horizontal)
             //        Vector3 toEnemy3D = entity.Head - localMainCamera;
             //        Vector2 toEnemy2D = Vector2::Normalized(Vector2(toEnemy3D.X, toEnemy3D.Z));
-
             //        // Calcular el ángulo relativo entre la dirección del jugador y la dirección al enemigo
             //        // atan2(y, x) devuelve el ángulo en radianes.
             //        float angleToEnemy = std::atan2(toEnemy2D.Y, toEnemy2D.X) - std::atan2(playerForward2D.Y, playerForward2D.X);
-
             //        // Normalizar el ángulo a un rango de -PI a PI
             //        while (angleToEnemy > M_PI) angleToEnemy -= 2.0f * M_PI;
             //        while (angleToEnemy < -M_PI) angleToEnemy += 2.0f * M_PI;
-
             //        // Determinar si el enemigo está al frente o atrás usando el producto escalar 3D
             //        float dotProduct = Vector3::Dot(cameraForward, toEnemy3D);
             //        ImU32 indicatorColor = (dotProduct >= 0) // Si el producto escalar es positivo, está al frente
             //            ? ColorToImU32(g_Options.Visuals.ESP.Players.Compass.FrontColor[0], g_Options.Visuals.ESP.Players.Compass.FrontColor[1], g_Options.Visuals.ESP.Players.Compass.FrontColor[2], g_Options.Visuals.ESP.Players.Compass.FrontColor[3])
             //            : ColorToImU32(g_Options.Visuals.ESP.Players.Compass.BackColor[0], g_Options.Visuals.ESP.Players.Compass.BackColor[1], g_Options.Visuals.ESP.Players.Compass.BackColor[2], g_Options.Visuals.ESP.Players.Compass.BackColor[3]);
-
             //        // Calcular la posición del indicador en el círculo de la brújula
             //        // Multiplicamos por el radio para que esté en la circunferencia.
             //        float indicatorX = compassCenter.x + (compassRadius * std::cos(angleToEnemy));
             //        float indicatorY = compassCenter.y + (compassRadius * std::sin(angleToEnemy));
-
             //        // Dibujar el indicador (un círculo pequeño)
             //        drawList->AddCircleFilled(ImVec2(indicatorX, indicatorY), dotSize, indicatorColor);
             //    }
             //}
 
+            void PlayerEsp::DrawTargetLine()
+            {
+                // 1. Comprobamos si la opción está activada en el menú
+                if (!g_Options.Visuals.ESP.Players.TargetLine) {
+                    return;
+                }
+
+                // 2. Comprobamos si el Silent Aim ha fijado un objetivo
+                if (Context::SilentAimTarget == nullptr) {
+                    return;
+                }
+
+                // 3. Obtenemos las coordenadas del objetivo y de la pantalla
+                float screenWidth = static_cast<float>(Context::WindowWidth);
+                float screenHeight = static_cast<float>(Context::WindowHeight);
+                Vector3 target_pos = Context::SilentAimTarget->Head;
+
+                // 4. Convertimos la posición 3D del objetivo a 2D en la pantalla
+                Vector2 target_on_screen = W2S::WorldToScreen(Context::ViewMatrix, target_pos, screenWidth, screenHeight);
+
+                // Solo dibujamos la línea si el objetivo está visible en la pantalla
+                if (target_on_screen.X > 1 && target_on_screen.Y > 1)
+                {
+                    // 5. Dibujamos la línea desde el centro de la pantalla hasta el objetivo
+                    ImDrawList* drawList = ImGui::GetForegroundDrawList();
+                    drawList->AddLine(
+                        ImVec2(screenWidth / 2.0f, screenHeight / 2.0f), // Origen: Centro de la pantalla
+                        ImVec2(target_on_screen.X, target_on_screen.Y),  // Destino: Cabeza del objetivo
+                        IM_COL32(255, 0, 255, 255),                      // Color: Magenta
+                        1.5f                                             // Grosor
+                    );
+                }
+            }
+
+            void PlayerEsp::DrawAimbotTargetLine()
+            {
+                // 1. Comprobamos si la opción está activada
+                if (!g_Options.Visuals.ESP.Players.AimbotTargetLine) {
+                    return;
+                }
+
+                // 2. Comprobamos si el Aimbot normal ha fijado un objetivo
+                if (Context::AimbotTarget == nullptr) {
+                    return;
+                }
+
+                // 3. Obtenemos las coordenadas
+                float screenWidth = static_cast<float>(Context::WindowWidth);
+                float screenHeight = static_cast<float>(Context::WindowHeight);
+                Vector3 target_pos = Context::AimbotTarget->Head;
+                Vector2 target_on_screen = W2S::WorldToScreen(Context::ViewMatrix, target_pos, screenWidth, screenHeight);
+
+                // 4. Dibujamos la línea si el objetivo está en pantalla
+                if (target_on_screen.X > 1 && target_on_screen.Y > 1)
+                {
+                    ImDrawList* drawList = ImGui::GetForegroundDrawList();
+                    drawList->AddLine(
+                        ImVec2(screenWidth / 2.0f, screenHeight / 2.0f),
+                        ImVec2(target_on_screen.X, target_on_screen.Y),
+                        IM_COL32(0, 255, 0, 255),  // Color: Verde para diferenciarla de la del Silent Aim
+                        1.5f
+                    );
+                }
+            }
 
             void PlayerEsp::DrawCorneredBox(float x, float y, float w, float h, ImU32 color, float thickness)
             {

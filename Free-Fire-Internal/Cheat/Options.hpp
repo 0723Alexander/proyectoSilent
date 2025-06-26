@@ -67,6 +67,12 @@ namespace Cheat {
 					bool ESPAimLine;
 					float ESPAimLineColor[4] = { 1.f, 0.f, 0.f, 1.f };
 
+					bool IgnoreVisibility;      // Para activar/desactivar la función
+					int IgnoreVisibilityKey = 0; // Para guardar la tecla que lo activa (0 = ninguna)
+
+					bool TargetLine;
+					bool AimbotTargetLine;
+
 					// NUEVAS OPCIONES PARA BRÚJULA ESP
 					struct Compass
 					{
@@ -94,7 +100,7 @@ namespace Cheat {
 			{
 				struct LocalPlayer
 				{
-					bool norecoil = false;
+					bool norecoil;
 					int health_ammount;
 					bool Start_Health;
 				} LocalPlayer;

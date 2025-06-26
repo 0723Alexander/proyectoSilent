@@ -17,6 +17,8 @@ public:
     static inline uint32_t LocalPlayerAddress = 0;
     static inline int WindowWidth = 0;
     static inline int WindowHeight = 0;
+    static inline Entity* SilentAimTarget = nullptr;
+    static inline Entity* AimbotTarget = nullptr;
 };
 
 struct VirtualMemoryFunctions {

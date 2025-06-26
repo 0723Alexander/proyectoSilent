@@ -99,7 +99,7 @@ namespace FrameWork {
             // Búfer para formatear los mensajes
             char msgBuffer[1024];
 
-            MessageBoxA(NULL, "Iniciando el proceso de conexion con ADB...", "Debug ADB: Paso 1", MB_OK | MB_ICONINFORMATION);
+            //MessageBoxA(NULL, "Iniciando el proceso de conexion con ADB...", "Debug ADB: Paso 1", MB_OK | MB_ICONINFORMATION);
 
             // --- Búsqueda de la ruta de ADB ---
             std::string adbPath = GetAdbPath();
@@ -109,11 +109,11 @@ namespace FrameWork {
             }
 
             sprintf_s(msgBuffer, sizeof(msgBuffer), "ACIERTO: Se encontro la ruta de ADB.\n\nRuta: %s", adbPath.c_str());
-            MessageBoxA(NULL, msgBuffer, "Debug ADB: Paso 2", MB_OK | MB_ICONINFORMATION);
+            //MessageBoxA(NULL, msgBuffer, "Debug ADB: Paso 2", MB_OK | MB_ICONINFORMATION);
 
             // --- Inicialización y obtención de la dirección de la librería ---
             FrameWork::Adb adb(adbPath);
-            MessageBoxA(NULL, "Iniciando ADB y buscando la libreria 'libil2cpp.so' en 'com.dts.freefireth'...", "Debug ADB: Paso 3", MB_OK | MB_ICONINFORMATION);
+            //MessageBoxA(NULL, "Iniciando ADB y buscando la libreria 'libil2cpp.so' en 'com.dts.freefireth'...", "Debug ADB: Paso 3", MB_OK | MB_ICONINFORMATION);
 
             Context::LibraryAddress = adb.Start(XorStr("com.dts.freefireth"), XorStr("libil2cpp.so"));
 
@@ -127,10 +127,10 @@ namespace FrameWork {
             }
 
             sprintf_s(msgBuffer, sizeof(msgBuffer), "ACIERTO: Se obtuvo la direccion de la libreria.\n\nDireccion de libil2cpp.so: 0x%p", (void*)Context::LibraryAddress);
-            MessageBoxA(NULL, msgBuffer, "Debug ADB: Paso 4", MB_OK | MB_ICONINFORMATION);
+            //MessageBoxA(NULL, msgBuffer, "Debug ADB: Paso 4", MB_OK | MB_ICONINFORMATION);
 
             // --- Lectura de verificación de la librería ---
-            MessageBoxA(NULL, "Intentando leer el primer byte de la libreria para verificar...", "Debug ADB: Paso 5", MB_OK | MB_ICONINFORMATION);
+            //MessageBoxA(NULL, "Intentando leer el primer byte de la libreria para verificar...", "Debug ADB: Paso 5", MB_OK | MB_ICONINFORMATION);
 
             byte elf = FrameWork::Memory::Read<byte>(Context::LibraryAddress);
 
@@ -140,7 +140,7 @@ namespace FrameWork {
             ss << "Byte (Hex): 0x" << std::hex << static_cast<unsigned int>(elf) << "\n\n";
             ss << "La inicializacion por ADB fue completamente exitosa.";
 
-            MessageBoxA(NULL, ss.str().c_str(), "Debug ADB: Paso 5", MB_OK | MB_ICONINFORMATION);
+            //MessageBoxA(NULL, ss.str().c_str(), "Debug ADB: Paso 5", MB_OK | MB_ICONINFORMATION);
 
             return true;
         }

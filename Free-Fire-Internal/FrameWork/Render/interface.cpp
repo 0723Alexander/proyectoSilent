@@ -108,9 +108,16 @@ namespace FrameWork {
 		ImGui::CustomChild(XorStr("Aimbot"), ImVec2(ImGui::GetWindowSize().x / 2 - 30, 350));
 		{
 			Custom::Checkbox3("Aimbot", &g_Options.LegitBot.AimBot.Enabled);
-
-			Custom::Checkbox3(XorStr("Enabled"), &g_Options.LegitBot.AimBot.Silent, 235.0f);
-			Custom::Checkbox3(XorStr("Show Fov"),&g_Options.Misc.Screen.ShowAimbotFov, 235.0f);
+			if (g_Options.LegitBot.AimBot.Enabled)
+			{
+				Custom::Checkbox3("Target Line Aimbot", &g_Options.Visuals.ESP.Players.AimbotTargetLine);
+			}
+			Custom::Checkbox3(XorStr("Silent"), &g_Options.LegitBot.AimBot.Silent, 235.0f);
+			if (g_Options.LegitBot.AimBot.Silent)
+			{
+				Custom::Checkbox3("Target Line Silent", &g_Options.Visuals.ESP.Players.TargetLine);
+			}
+			//Custom::Checkbox3(XorStr("Show Fov"),&g_Options.Misc.Screen.ShowAimbotFov, 235.0f);
 			Custom::Checkbox3(XorStr("No Recoil"), &g_Options.Misc.Exploits.LocalPlayer.norecoil, 235.0f);
 			Custom::SliderInt(XorStr("Max Distance"), &g_Options.LegitBot.AimBot.MaxDistance, 0, 100, XorStr("%dm"), 0, XorStr("Maximum range"));
 		}
@@ -166,22 +173,24 @@ namespace FrameWork {
 			}*/
 
 			//Custom::Checkbox3(XorStr("Esp Skeleton"), &g_Options.Visuals.ESP.Players.Skeleton, 235.0f);
-			Custom::Checkbox3(XorStr("Esp Username"), &g_Options.Visuals.ESP.Players.Name, 235.0f);
-			Custom::Checkbox3(XorStr("Esp Distance"), &g_Options.Visuals.ESP.Players.Distance, 235.0f);
+			//Custom::Checkbox3(XorStr("Esp Username"), &g_Options.Visuals.ESP.Players.Name, 235.0f);
+			//Custom::Checkbox3(XorStr("Esp Distance"), &g_Options.Visuals.ESP.Players.Distance, 235.0f);
 			Custom::Checkbox3(XorStr("Esp Line"), &g_Options.Visuals.ESP.Players.SnapLines, 235.0f);
 
-			// ¡NUEVO! Opción para la Brújula ESP
-			Custom::Checkbox3(XorStr("Esp Compass"), &g_Options.Visuals.ESP.Players.Compass.Enabled, 235.0f);
+			Custom::Checkbox3(XorStr("Esp Wookong/Orion"), &g_Options.Visuals.ESP.Players.VisibleOnly, 235.0f);
 
-			// Opcional: Si quieres añadir controles para el radio, tamaño de punto y colores de la brújula:
-			if (g_Options.Visuals.ESP.Players.Compass.Enabled)
-			{
-				ImGui::SliderFloat(XorStr("Compass Radius"), &g_Options.Visuals.ESP.Players.Compass.Radius, 50.0f, 200.0f, "%.1f");
-				ImGui::SliderFloat(XorStr("Compass Dot Size"), &g_Options.Visuals.ESP.Players.Compass.DotSize, 1.0f, 10.0f, "%.1f");
-				ImGui::ColorEdit4(XorStr("Compass Front Color"), g_Options.Visuals.ESP.Players.Compass.FrontColor);
-				ImGui::ColorEdit4(XorStr("Compass Back Color"), g_Options.Visuals.ESP.Players.Compass.BackColor);
-				ImGui::ColorEdit4(XorStr("Compass Circle Color"), g_Options.Visuals.ESP.Players.Compass.CircleColor);
-			}
+			//// ¡NUEVO! Opción para la Brújula ESP
+			//Custom::Checkbox3(XorStr("Esp Compass"), &g_Options.Visuals.ESP.Players.Compass.Enabled, 235.0f);
+
+			//// Opcional: Si quieres añadir controles para el radio, tamaño de punto y colores de la brújula:
+			//if (g_Options.Visuals.ESP.Players.Compass.Enabled)
+			//{
+			//	ImGui::SliderFloat(XorStr("Compass Radius"), &g_Options.Visuals.ESP.Players.Compass.Radius, 50.0f, 200.0f, "%.1f");
+			//	ImGui::SliderFloat(XorStr("Compass Dot Size"), &g_Options.Visuals.ESP.Players.Compass.DotSize, 1.0f, 10.0f, "%.1f");
+			//	ImGui::ColorEdit4(XorStr("Compass Front Color"), g_Options.Visuals.ESP.Players.Compass.FrontColor);
+			//	ImGui::ColorEdit4(XorStr("Compass Back Color"), g_Options.Visuals.ESP.Players.Compass.BackColor);
+			//	ImGui::ColorEdit4(XorStr("Compass Circle Color"), g_Options.Visuals.ESP.Players.Compass.CircleColor);
+			//}
 		}
 		ImGui::EndCustomChild();
 
