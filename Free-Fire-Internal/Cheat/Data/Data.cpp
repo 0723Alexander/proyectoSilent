@@ -108,11 +108,6 @@ namespace FrameWork {
 
             entities += 0x10;
 
-            if (entities==0)
-            {
-                ClearGameState();
-            }
-
             uint32_t entitiesCount = Memory::Read<uint32_t>(entityDictionary + 0x18);
             if (entitiesCount != previousCount) {
                 std::cout << "Entities Count: " << entitiesCount << std::endl;

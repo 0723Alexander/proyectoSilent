@@ -197,7 +197,7 @@ namespace FrameWork {
 		ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x / 2 + 10, 60));
 		ImGui::CustomChild(XorStr("Options"), ImVec2(ImGui::GetWindowSize().x / 2 - 30, 180));
 		{
-			Custom::SliderInt(XorStr("Render Distance"), &g_Options.Visuals.ESP.Players.RenderDistance, 0, 120, XorStr("%dm"), 0, XorStr("Adjust Render Distance"));
+			Custom::SliderInt(XorStr("Render Distance"), &g_Options.Visuals.ESP.Players.RenderDistance, 0, 1200, XorStr("%dm"), 0, XorStr("Adjust Render Distance"));
 		}
 		ImGui::EndCustomChild();
 

@@ -21,5 +21,5 @@ extern FrameWork::Interface* g_pInterface;
 namespace Cheat {
 	void Initialize();
 	DWORD WINAPI Unload();
-	void ChamsContextShutdown(); // Declaração da funç
+	//void ChamsContextShutdown(); // Declaração da funç
 }

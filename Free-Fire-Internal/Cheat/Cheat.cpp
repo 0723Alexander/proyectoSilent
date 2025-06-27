@@ -125,7 +125,8 @@ namespace Cheat {
 					else {
 						g_Options.Misc.Screen.ShowAimbotFov = false;
 						Silent_CppX::StopSilentAim();
-					}
+					}/**/
+					
 
 					Interface.RenderGui();
 				}
